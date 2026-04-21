@@ -1,5 +1,5 @@
-//Project #3, Bank System (V1);
-//Due: In 2026/4/19
+//Project #3, Bank 1 (V2);
+//Due: In 2026/4/20
 
 #include <iostream>
 #include <string>
@@ -10,7 +10,9 @@ using namespace std;
 
 const string ClientsFileName = "Clients.txt";
 
-enum enMainMenueOptions { enShowClientList = 1, enAddNewClient = 2, enDeleteClient = 3, enUpdateClientInfo = 4, enFindClient = 5, enExit = 6 };
+enum enMainMenueOptions { enShowClientList = 1, enAddNewClient = 2, enDeleteClient = 3, enUpdateClientInfo = 4, enFindClient = 5, enTransactions = 6, enExit = 7 };
+
+enum enTransactionsMenueOptions { enDeposit = 1, enWithdraw = 2, TotalBalances = 3, MainMenue = 4 };
 
 struct stClient
 {
@@ -23,6 +25,8 @@ struct stClient
 };
 
 void ShowMainMenue();
+
+void ShowTransactionsMenue();
 
 string PrintPunctuations(char Punct, short NumberOfPunct)
 {
@@ -41,9 +45,21 @@ short ReadMainMenueOption()
 	short Choose = 0;
 	do
 	{
-		cout << "Choose What do you want to do? [1 to 6]? ";
+		cout << "Choose What do you want to do? [1 to 7]? ";
 		cin >> Choose;
-	} while (!(Choose >= 1 && Choose <= 6));
+	} while (!(Choose >= 1 && Choose <= 7));
+
+	return Choose;
+}
+
+short ReadTransactionMenueOption()
+{
+	short Choose = 0;
+	do
+	{
+		cout << "Choose what do you want to do? [1 to 4]? ";
+		cin >> Choose;
+	} while (!(Choose >= 1 && Choose <= 4));
 
 	return Choose;
 }
@@ -139,7 +155,7 @@ vector <stClient> LoadClientsDataFromFile(string FileName)
 	return vClients;
 }
 
-vector <stClient> SaveClientsDataToFile(string FileName, vector <stClient> vClients)
+vector <stClient> SaveClientsDataToFile(string FileName, vector <stClient>& vClients)
 {
 	fstream MyFile;
 	MyFile.open(FileName, ios::out); //overWrite
@@ -242,6 +258,13 @@ void PrintClientRecord(stClient& Client)
 	cout << "| " << left << setw(12) << Client.AccountBalance;
 }
 
+void PrintClientRecordBalanceLine(stClient& Client)
+{
+	cout << "| " << left << setw(15) << Client.AccountNumber;
+	cout << "| " << left << setw(40) << Client.Name;
+	cout << "| " << left << setw(12) << Client.AccountBalance;
+}
+
 void PrintAllClientsData(vector <stClient>& vClients)
 {
 	cout << "\n\t\t\t\t\tClient List (" << vClients.size() << ") Client(s).";
@@ -269,6 +292,39 @@ void PrintAllClientsData(vector <stClient>& vClients)
 	}
 
 	cout << "\n________________________________________________________________________________________________\n" << endl;
+}
+
+void PrintAllClientsBalances(vector <stClient>& vClients)
+{
+	cout << "\n\t\t\t\t\tBalances List (" << vClients.size() << ") Client(s).";
+
+	cout << "\n________________________________________________________________________________________________\n" << endl;
+
+	cout << "| " << left << setw(15) << "Accout Number";
+	cout << "| " << left << setw(40) << "Client Name";
+	cout << "| " << left << setw(12) << "Balance";
+	cout << "\n________________________________________________________________________________________________\n" << endl;
+
+	double TotalBalances = 0.0;
+
+	if (vClients.size() == 0)
+	{
+		cout << PrintPunctuations('\t', 4) << "No Clients Available In the System!";
+	}
+	else
+	{
+		for (stClient& Client : vClients)
+		{
+			PrintClientRecordBalanceLine(Client);
+			TotalBalances += Client.AccountBalance;
+
+			cout << endl;
+		}
+	}
+
+	cout << "\n________________________________________________________________________________________________\n" << endl;
+
+	cout << PrintPunctuations('\t', 5) << "    Total Balances = " << TotalBalances;
 }
 
 void PrintClientCard(stClient Client)
@@ -428,6 +484,7 @@ bool UpdateClientByAccountNumber(string AccountNumber, vector <stClient>& vClien
 			cout << "\n\nClient Update Successfully.";
 			return true;
 		}
+		return false;
 	}
 	else
 	{
@@ -435,6 +492,32 @@ bool UpdateClientByAccountNumber(string AccountNumber, vector <stClient>& vClien
 		return false;
 	}
 }
+
+bool DepositBalanceToClientByAccountNumber(string AccountNumber, double Amount, vector <stClient>& vClients)
+{
+	char Answer = 'n';
+
+	cout << "\n\nAre you sure you want perform this transaction? y/n? ";
+	cin >> Answer;
+
+	if (tolower(Answer) == 'y')
+	{
+		for (stClient& C : vClients)
+		{
+			if (C.AccountNumber == AccountNumber)
+			{
+				C.AccountBalance += Amount;
+				SaveClientsDataToFile(ClientsFileName, vClients);
+				cout << "\nDone Successfully New Balance is: " << C.AccountBalance;
+
+				return true;
+			}
+		}
+		return false;
+	}
+	return false;
+}
+
 void ShowClientListScreen()
 {
 	vector <stClient> vClients = LoadClientsDataFromFile(ClientsFileName);
@@ -509,6 +592,73 @@ void ShowEndScreen()
 	system("pause>0");
 }
 
+void DepositScreen()
+{
+	cout << "\n";
+	cout << PrintPunctuations('-', 35) << "\n";
+	cout << PrintPunctuations('\t', 1) << "Deposit Screen\n";
+	cout << PrintPunctuations('-', 35) << "\n";
+
+	stClient Client;
+	vector <stClient> vClients = LoadClientsDataFromFile(ClientsFileName);
+	string AccountNumber = ReadClientAccountNumber();
+
+	while (!FindClientByAccountNumber(AccountNumber, vClients, Client))
+	{
+		cout << "\nClient with [" << AccountNumber << "] does not exist.";
+		AccountNumber = ReadClientAccountNumber();
+	}
+
+	PrintClientCard(Client);
+
+	double Amount = 0;
+	cout << "\nPlease enter deposit amount? ";
+	cin >> Amount;
+
+	DepositBalanceToClientByAccountNumber(AccountNumber, Amount, vClients);
+}
+
+void WithdrawScreen()
+{
+	cout << "\n";
+	cout << PrintPunctuations('-', 35) << "\n";
+	cout << PrintPunctuations('\t', 1) << "Withdraw Screen\n";
+	cout << PrintPunctuations('-', 35) << "\n";
+
+	stClient Client;
+	vector <stClient> vClients = LoadClientsDataFromFile(ClientsFileName);
+	string AccountNumber = ReadClientAccountNumber();
+
+	while (!FindClientByAccountNumber(AccountNumber, vClients, Client))
+	{
+		cout << "\nClient with [" << AccountNumber << "] does not exist.";
+		AccountNumber = ReadClientAccountNumber();
+	}
+
+	PrintClientCard(Client);
+
+	double Amount = 0;
+	cout << "\nPlease enter withdraw amount? ";
+	cin >> Amount;
+
+	//Validate that the amount does not exceeds the balance
+	while (Amount > Client.AccountBalance)
+	{
+		cout << "\nAmount Exceeds the balance, you can withdraw up to : " << Client.AccountBalance;
+		cout << "\nPlease enter another amount? ";
+		cin >> Amount;
+	}
+
+	DepositBalanceToClientByAccountNumber(AccountNumber, Amount * -1, vClients);
+}
+
+void ShowBalancesListScreen()
+{
+	vector <stClient> vClients = LoadClientsDataFromFile(ClientsFileName);
+
+	PrintAllClientsBalances(vClients);
+}
+
 void GoBackToMainMenue()
 {
 	cout << "\n\nPress any key to go back to Main Menue...";
@@ -517,7 +667,14 @@ void GoBackToMainMenue()
 
 }
 
-void PerfromMainMenueOption(enMainMenueOptions enOptions)
+void GoBackToTransactionsMenue()
+{
+	cout << "\n\nPress any key to go back to Transactions Menue...";
+	system("pause>0");
+	ShowTransactionsMenue();
+}
+
+void PerformMainMenueOption(enMainMenueOptions enOptions)
 {
 	switch (enOptions)
 	{
@@ -551,11 +708,58 @@ void PerfromMainMenueOption(enMainMenueOptions enOptions)
 		GoBackToMainMenue();
 		break;
 
+	case enMainMenueOptions::enTransactions:
+		system("cls");
+		ShowTransactionsMenue();
+		break;
+
 	case enMainMenueOptions::enExit:
 		system("cls");
 		ShowEndScreen();
 		break;
 	}
+}
+
+void PerformTransactionMenueOption(enTransactionsMenueOptions enOptions)
+{
+	switch (enOptions)
+	{
+	case enTransactionsMenueOptions::enDeposit:
+		system("cls");
+		DepositScreen();
+		GoBackToTransactionsMenue();
+		break;
+
+	case enTransactionsMenueOptions::enWithdraw:
+		system("cls");
+		WithdrawScreen();
+		GoBackToTransactionsMenue();
+		break;
+
+	case enTransactionsMenueOptions::TotalBalances:
+		system("cls");
+		ShowBalancesListScreen();
+		GoBackToTransactionsMenue();
+		break;
+
+	case enTransactionsMenueOptions::MainMenue:
+		ShowMainMenue();
+		break;
+	}
+}
+
+void ShowTransactionsMenue()
+{
+	system("cls");
+	cout << PrintPunctuations('=', 45) << "\n";
+	cout << PrintPunctuations('\t', 2) << "Transactions Menue Screen" << "\n";
+	cout << PrintPunctuations('=', 45) << "\n";
+	cout << PrintPunctuations('\t', 1) << "[1] Deposit." << "\n";
+	cout << PrintPunctuations('\t', 1) << "[2] Withdraw." << "\n";
+	cout << PrintPunctuations('\t', 1) << "[3] Total Balances." << "\n";
+	cout << PrintPunctuations('\t', 1) << "[4] Main Menue." << "\n";
+	cout << PrintPunctuations('=', 45) << "\n";
+	PerformTransactionMenueOption(enTransactionsMenueOptions(ReadTransactionMenueOption()));
 }
 
 void ShowMainMenue()
@@ -569,14 +773,17 @@ void ShowMainMenue()
 	cout << PrintPunctuations('\t', 1) << "[3] Delete Client." << "\n";
 	cout << PrintPunctuations('\t', 1) << "[4] Update Client Info." << "\n";
 	cout << PrintPunctuations('\t', 1) << "[5] Find Client." << "\n";
-	cout << PrintPunctuations('\t', 1) << "[6] Exit." << "\n";
+	cout << PrintPunctuations('\t', 1) << "[6] Transactions." << "\n";
+	cout << PrintPunctuations('\t', 1) << "[7] Exit." << "\n";
 	cout << PrintPunctuations('=', 45) << "\n";
-	PerfromMainMenueOption(enMainMenueOptions(ReadMainMenueOption()));
+	PerformMainMenueOption(enMainMenueOptions(ReadMainMenueOption()));
 }
 
 
 int main()
 {
 	ShowMainMenue();
+
+
 	return 0;
 }
