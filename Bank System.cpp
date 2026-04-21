@@ -1,4 +1,4 @@
-//Project #3, Bank 1 (V2);
+//Project #3, Bank System (V2);
 //Due: In 2026/4/20
 
 #include <iostream>
