@@ -1,26 +1,25 @@
-# 🏦 Bank System - Project 3 (Version 1) 🚀
+# 🏦 Bank System - Project 3 (Version 2) 🚀
 [ **🇸🇦 القراءة باللغة العربية** ](./README-AR.md)
 
-![C++](https://img.shields.io/badge/C++-Solutions-blue.svg) ![Status](https://img.shields.io/badge/Status-Completed-success.svg)
+![C++](https://img.shields.io/badge/C++-Solutions-blue.svg) ![Status](https://img.shields.io/badge/Status-Updated-orange.svg)
 
-A professional C++ Console Application for managing bank clients. This project focuses on implementing core banking functionalities with permanent data storage.
+This is the **Extension 1** of the Bank System project. In this version, I implemented the core banking logic by adding a dedicated **Transactions System** to manage client funds securely.
 
-## 🌟 Version 1 Features:
-* 📊 **Show Client List:** Displays all clients in a well-formatted table.
-* ➕ **Add New Client:** Inserts new clients with account number duplication check.
-* ❌ **Delete Client:** Securely removes client records after confirmation.
-* 🔄 **Update Client Info:** Modifies existing client details (Name, Phone, Pin, Balance).
-* 🔍 **Find Client:** Quick search functionality by account number.
+## 🌟 New Features in Version 2:
+* 💸 **Transactions Menu:** A new sub-menu dedicated to banking operations.
+* 📥 **Deposit:** Ability to add funds to any client's account with immediate file update.
+* 📤 **Withdraw:** Secure withdrawal system with a validation check to ensure the amount does not exceed the available balance.
+* 📊 **Total Balances:** A comprehensive report showing all client balances and the total liquidity in the bank.
+* 🔄 **Enhanced Menu Navigation:** Seamless transition between the Main Menu and the Transactions Menu.
 
-## 🛠️ Technical Implementation:
-* 💻 **Language:** C++
-* 📁 **Storage:** Text files (`Clients.txt`) for data persistence.
-* 🏗️ **Data Structures:** `struct` for modeling and `vector` for memory management.
-* ⚙️ **Logic:** Custom string parsing using a `SplitString` algorithm.
+## 🛠️ Technical Improvements:
+* ⚙️ **Sub-Menu Logic:** Implemented using `enum` and `switch cases` for organized flow.
+* ✅ **Input Validation:** Added logic to prevent over-withdrawing (Amount > Balance).
+* 💾 **Dynamic File Updates:** The system now rewrites the data file after every successful transaction to maintain data integrity.
 
 ---
-* **Completed:** April 19, 2026
-* **Course:** Course 7 - Version 1
+* **Completed:** April 20, 2026
+* **Course:** Course 7 - Version 2 (Extension 1)
 * **Instructor:** Mohammed Abu-Hadhoud
 * **Platform:** Programming Advices
 ---
