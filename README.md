@@ -1,25 +1,46 @@
-# 🏦 Bank System - Project 3 (Version 3) 🚀
+# 🏦 Bank System - Complete Project 🚀
 
-[ **🇸🇦 القراءة باللغة العربية** ](./README-AR.md)
-
-![C++](https://img.shields.io/badge/C++-Solutions-blue.svg) ![Status](https://img.shields.io/badge/Status-Completed-green.svg)
-
-This is the **Extension 2** of the Bank System project. In this version, I implemented a robust **User Management System** to control system access and define granular permissions for different users.
-
-## 🌟 New Features in Version 3:
-* 👥 **Manage Users Menu:** A new administrative sub-menu to control system users.
-* 🔐 **Login & Security:** Added a secure login screen requiring a valid username and password to access the system.
-* 🔑 **Permissions System:** Implemented a binary-based permissions system to grant or restrict specific features (List, Add, Delete, Update, Find, Transactions) for each user.
-* 🛡️ **Access Control:** Integrated validation checks to prevent unauthorized access to sensitive operations.
-* 🏗️ **Full CRUD Operations:** Complete support for Creating, Reading, Updating, and Deleting (CRUD) user accounts.
-
-## 🛠️ Technical Improvements:
-* 🚦 **Bitwise Operations:** Utilized bitwise `OR` and `AND` operators to handle complex user permissions efficiently.
-* 🏗️ **Global User Session:** Implemented a global `CurrentUser` struct to track logged-in sessions and active permissions.
-* 📂 **File Handling Integration:** Enhanced data persistence for both Clients and Users files, ensuring data integrity across sessions.
+A professional banking system application developed in **C++**, designed to manage banking operations and administrative access through a structured, multi-stage development approach.
 
 ---
-* **Completed:** June 9, 2026
-* **Course:** Course 8 - Version 3 (Extension 2)
-* **Instructor:** Mohammed Abu-Hadhoud
-* **Platform:** Programming Advices
+
+## 🏗️ Project Journey & Milestones
+
+### 1️⃣ Phase One: The Foundation (V1) 📊
+**Core Client Management**
+* 👥 **Purpose:** Establishing the base system using CRUD operations.
+* 🛠️ **Features:** Creating, Reading, Updating, and Deleting client accounts efficiently.
+* 💾 **Technical:** Data is handled through `Vectors` and stored permanently in `Clients.txt`.
+
+### 2️⃣ Phase Two: The Financial Engine (V2) 💸
+**Banking Transactions & Logic**
+* 💳 **Purpose:** Transforming the system into a functional financial application.
+* 🛠️ **Features:** Added a robust transactions system for deposits, withdrawals, and balance reports.
+* 💾 **Technical:** Implemented strict validation checks to prevent negative balances and ensure data integrity.
+
+### 3️⃣ Phase Three: The Security Layer (V3) 🔐
+**Administrative Access & Permissions**
+* 🔑 **Purpose:** Implementing a professional-grade administrative system.
+* 🛠️ **Features:** Added secure user login and a granular permission system for all system features.
+* 💾 **Technical:** Utilized `Bitwise Operators` for efficient permission management and session tracking for the `CurrentUser`.
+
+---
+
+## 💻 Code Architecture & Future Vision 🧬
+
+### Current Architecture: Procedural / Functional Programming
+The entire project is currently built using **Procedural Programming** (Functional Programming), focusing on modular functions, structured data, and clean control flow. This approach was essential to master the logic and data flow of the banking system.
+
+### Future Evolution: Transition to OOP
+This project serves as a solid foundation for my upcoming development phase. I am planning to refactor the entire system into **Object-Oriented Programming (OOP)**, utilizing Classes, Inheritance, and Polymorphism. This will significantly improve scalability, code reusability, and maintainability for future banking modules.
+
+---
+
+## 🛠️ Key Technical Highlights ✨
+* ⚙️ **Clean Architecture:** Using `Enums` and `Switch-Case` for highly organized navigation.
+* 🛡️ **Advanced Security:** Dynamic input validation and access control to protect sensitive data.
+* 🚀 **Scalable Code:** Designed with modularity in mind to allow for future extensions.
+
+---
+
+> 💡 **Explore the Evolution:** You can download the full source code for every development phase in the [**Releases**](https://github.com/ABDLLH2PG/Project-3-Bank-System/releases) section.
