@@ -1,5 +1,7 @@
 # 🏦 Bank System - Complete Project 🚀
 
+[ **🇸🇦 Read this project in Arabic** ](./README-AR.md)
+
 A professional banking system application developed in **C++**, designed to manage banking operations and administrative access through a structured, multi-stage development approach.
 
 ---
